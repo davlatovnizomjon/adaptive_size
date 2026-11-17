@@ -1,22 +1,115 @@
-# responsive_size
+# adaptive_size
 
-A simple and powerful package for building **responsive** Flutter applications with elegant syntax
-and maintainable code structure. It provides easy extensions for size scaling, route names
-management, and custom text widgets with predefined styles.
+Flutter ilovalarida o'lchamlarni turli ekranlarga moslashtirish uchun oddiy va yengil paket. Figma'dagi dizayn o'lchamini bir marta berasiz, qolganini paket o'zi hisoblaydi.
 
-## ✨ Features
+## Imkoniyatlar
 
-- 📱 Make your UI responsive to any screen size
-- 🚀 Simplified navigation with named route constants
-- 🧩 Easy-to-use custom `Text` widget with consistent styling
-- ⚙️ Extensions for `BuildContext` and `num` for cleaner code
+- `num` uchun `.w`, `.h` va `.o` kengaytmalari: kenglik, balandlik va o'rtacha koeffitsiyent bo'yicha moslashtirish
+- `10.gapX` va `10.gapY` orqali tez bo'sh joy (`SizedBox`) qo'yish
+- `BuildContext` orqali ekran o'lchamlarini olish (`context.screenWidth`, `context.screenHeight` va hokazo)
 
-## 🚀 Getting Started
+## O'rnatish
 
-Add this package to your project:
+```bash
+flutter pub add adaptive_size
+```
+
+yoki `pubspec.yaml` ga qo'lda yozing:
 
 ```yaml
 dependencies:
-  responsive_size:
-    git:
-      url: https://github.com/theofficialdavlatovnizomjon/responsive_size.git
+  adaptive_size: ^0.1.0
+```
+
+## Ishlatish
+
+### 1. Boshlang'ich sozlash
+
+`main.dart` da ilovani `AdaptiveSizeInit` bilan o'rab qo'ying va dizayningiz o'lchamini bering (masalan, Figma'da 375x812). Shu bilan tamom, boshqa joyda `init` chaqirish shart emas:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:adaptive_size/adaptive_size.dart';
+
+void main() {
+  runApp(
+    AdaptiveSizeInit(
+      designSize: const Size(375, 812),
+      builder: (context, child) => MaterialApp(
+        home: const HomePage(),
+      ),
+    ),
+  );
+}
+```
+
+Ekran o'lchami o'zgarsa (telefon aylantirilsa, oyna kattalashtirilsa), qiymatlar o'zi yangilanadi.
+
+### 2. O'lchamlarni moslashtirish
+
+Endi butun loyihada, `context`siz ishlatishingiz mumkin:
+
+```dart
+Container(
+  width: 200.w,
+  height: 100.h,
+  padding: EdgeInsets.all(16.o),
+  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r)),
+  child: Text('Salom', style: TextStyle(fontSize: 14.sp)),
+)
+```
+
+Qaysi birini tanlash kerak:
+
+- `.w` — kenglik, chap-o'ng padding kabi gorizontal o'lchamlar
+- `.h` — balandlik, tepa-past padding kabi vertikal o'lchamlar
+- `.o` — kenglik va balandlik o'rtachasi bo'yicha
+- `.sp` — shrift o'lchami
+- `.r` — border radius va ikonka kabi tomonlari teng narsalar
+
+### 3. Bo'sh joy qo'yish
+
+```dart
+Column(
+  children: [
+    Text('Salom'),
+    20.gapY,
+    Text('Dunyo'),
+  ],
+)
+```
+
+`gapX` va `gapY` qiymatni o'zgartirmaydi. Moslashtirilgan variantlari: `20.gh` (vertikal) va `10.gw` (gorizontal).
+
+### 4. Ekran ulushi bo'yicha o'lcham
+
+```dart
+Container(
+  width: 0.5.sw(context),   // ekran kengligining yarmi
+  height: 0.3.sh(context),  // ekran balandligining 30 foizi
+)
+```
+
+### 5. Ekran o'lchamlarini olish
+
+```dart
+final width = context.screenWidth;
+final height = context.screenHeight;
+final short = context.screenShortestSide;
+final long = context.screenLongestSide;
+```
+
+## Namuna
+
+To'liq ishlaydigan namuna `example/` papkasida: `cd example && flutter run`.
+
+## Eslatmalar
+
+- Ekran o'lchami o'zgarganda butun ilova qayta `build` qilinadi (`const` vidjetlar ham), lekin ularning holati (`State`) saqlanadi.
+- `AdaptiveSizeInit` ishlatilmasa, barcha koeffitsiyentlar 1 bo'ladi va o'lchamlar o'zgarmaydi.
+- Eski usul ham ishlaydi: `AdaptiveSizeConfig.init(context, designWidth: 375, designHeight: 812)`. Lekin bu holda ekran o'zgarganda qayta chaqirish kerak.
+- Kamida Flutter 3.10 kerak.
+
+## Litsenziya
+
+MIT. Batafsil ma'lumot uchun [LICENSE](LICENSE) faylini ko'ring.
