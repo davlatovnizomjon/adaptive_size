@@ -1,7 +1,7 @@
 name: adaptive_size
 description: >
   Lightweight Flutter package that scales sizes to any screen. Use 16.w, 20.h and 14.sp anywhere, no BuildContext needed.
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/davlatovnizomjon/responsive_size
 repository: https://github.com/davlatovnizomjon/responsive_size
 issue_tracker: https://github.com/davlatovnizomjon/responsive_size/issues

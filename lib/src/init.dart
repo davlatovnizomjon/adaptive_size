@@ -10,18 +10,8 @@ class AdaptiveSizeConfig {
   static double _arithmeticFactor = 1;
   static double _textFactor = 1;
 
-  /// Koeffitsiyentlarni qo'lda yangilaydi. [AdaptiveSizeInit] ishlatilsa,
-  /// bu metodni chaqirish shart emas.
-  static void init(
-    BuildContext context, {
-    required double designWidth,
-    required double designHeight,
-  }) {
-    update(MediaQuery.sizeOf(context), Size(designWidth, designHeight));
-  }
-
   /// Ekran va dizayn o'lchamidan koeffitsiyentlarni hisoblaydi.
-  static void update(Size screen, Size design) {
+  static void init(Size screen, Size design) {
     assert(
       design.width > 0 && design.height > 0,
       "designSize noldan katta bo'lishi kerak",
@@ -133,7 +123,7 @@ class _AdaptiveSizeInitState extends State<AdaptiveSizeInit>
   @override
   Widget build(BuildContext context) {
     _screenSize = _readScreenSize();
-    AdaptiveSizeConfig.update(_screenSize, widget.designSize);
+    AdaptiveSizeConfig.init(_screenSize, widget.designSize);
     return widget.builder(context, widget.child);
   }
 }

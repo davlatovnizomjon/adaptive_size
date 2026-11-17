@@ -76,7 +76,7 @@ void main() {
 
   group('koeffitsiyentlar', () {
     setUp(() {
-      AdaptiveSizeConfig.update(const Size(750, 812), const Size(375, 812));
+      AdaptiveSizeConfig.init(const Size(750, 812), const Size(375, 812));
     });
 
     test('.w, .h, .o, .sp, .r', () {
@@ -87,14 +87,29 @@ void main() {
       expect(10.r, 10);
     });
 
-    test('gw va gh moslashadi, gapX va gapY moslashmaydi', () {
+    test('gapX va gapY moslashmaydi', () {
       expect(10.gapX.width, 10);
       expect(10.gapY.height, 10);
     });
 
+    test('padding va margin kengaytmalari moslashadi', () {
+      // kenglik koeffitsiyenti 2, balandlik 1
+      expect(10.all, const EdgeInsets.symmetric(horizontal: 20, vertical: 10));
+      expect(10.horizontal, const EdgeInsets.symmetric(horizontal: 20));
+      expect(10.vertical, const EdgeInsets.symmetric(vertical: 10));
+      expect(10.onlyLeft, const EdgeInsets.only(left: 20));
+      expect(10.onlyRight, const EdgeInsets.only(right: 20));
+      expect(10.onlyTop, const EdgeInsets.only(top: 10));
+      expect(10.onlyBottom, const EdgeInsets.only(bottom: 10));
+      expect(
+        10.horizontal + 5.vertical,
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      );
+    });
+
     test('noldan kichik dizayn o\'lchami xato beradi', () {
       expect(
-        () => AdaptiveSizeConfig.update(const Size(100, 100), Size.zero),
+        () => AdaptiveSizeConfig.init(const Size(100, 100), Size.zero),
         throwsAssertionError,
       );
     });
@@ -115,28 +130,6 @@ void main() {
 
     await tester.pumpWidget(app(const Size(750, 1624)));
     expect(find.text('50.0'), findsOneWidget);
-  });
-
-  testWidgets('eski init usuli ishlaydi', (tester) async {
-    tester.view.physicalSize = const Size(750, 812);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Builder(
-          builder: (context) {
-            AdaptiveSizeConfig.init(
-              context,
-              designWidth: 375,
-              designHeight: 812,
-            );
-            return const _Probe();
-          },
-        ),
-      ),
-    );
-    expect(find.text('200.0'), findsOneWidget);
   });
 
   testWidgets('qayta build qilinganda State saqlanadi', (tester) async {

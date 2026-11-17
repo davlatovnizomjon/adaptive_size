@@ -20,6 +20,35 @@ extension AdaptiveSize on num {
   double get r => this * AdaptiveSizeConfig.textFactor;
 }
 
+/// Padding va margin uchun moslashtirilgan `EdgeInsets` kengaytmalari.
+///
+/// Ikkalasi ham `EdgeInsets` bo'lgani uchun bir xil nomlar ishlaydi:
+/// `padding: 16.horizontal`, `margin: 8.onlyTop`. Gorizontal qiymatlar `.w`,
+/// vertikal qiymatlar `.h` bo'yicha moslashtiriladi. Ularni qo'shish ham
+/// mumkin: `16.horizontal + 8.vertical`.
+extension AdaptiveInsets on num {
+  /// Hamma tomondan: chap-o'ng `.w`, tepa-past `.h` bo'yicha.
+  EdgeInsets get all => EdgeInsets.symmetric(horizontal: w, vertical: h);
+
+  /// Chap va o'ngdan.
+  EdgeInsets get horizontal => EdgeInsets.symmetric(horizontal: w);
+
+  /// Tepa va pastdan.
+  EdgeInsets get vertical => EdgeInsets.symmetric(vertical: h);
+
+  /// Faqat chapdan.
+  EdgeInsets get onlyLeft => EdgeInsets.only(left: w);
+
+  /// Faqat o'ngdan.
+  EdgeInsets get onlyRight => EdgeInsets.only(right: w);
+
+  /// Faqat tepadan.
+  EdgeInsets get onlyTop => EdgeInsets.only(top: h);
+
+  /// Faqat pastdan.
+  EdgeInsets get onlyBottom => EdgeInsets.only(bottom: h);
+}
+
 /// Bo'sh joy (`SizedBox`) va ekran ulushi uchun kengaytmalar.
 extension GapExt on num {
   /// Moslashtirilmagan gorizontal bo'sh joy.

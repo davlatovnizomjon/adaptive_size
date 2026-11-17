@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
         title: Text('adaptive_size', style: TextStyle(fontSize: 20.sp)),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        padding: 16.all,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

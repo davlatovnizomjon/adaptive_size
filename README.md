@@ -4,7 +4,8 @@ Flutter ilovalarida o'lchamlarni turli ekranlarga moslashtirish uchun oddiy va y
 
 ## Imkoniyatlar
 
-- `num` uchun `.w`, `.h` va `.o` kengaytmalari: kenglik, balandlik va o'rtacha koeffitsiyent bo'yicha moslashtirish
+- `num` uchun `.w`, `.h`, `.o`, `.sp`, `.r` kengaytmalari: kenglik, balandlik, o'rtacha koeffitsiyent, shrift va radius bo'yicha moslashtirish
+- Padding va margin uchun `16.horizontal`, `8.onlyTop` kabi qisqa yozuv
 - `10.gapX` va `10.gapY` orqali tez bo'sh joy (`SizedBox`) qo'yish
 - `BuildContext` orqali ekran o'lchamlarini olish (`context.screenWidth`, `context.screenHeight` va hokazo)
 
@@ -79,9 +80,32 @@ Column(
 )
 ```
 
-`gapX` va `gapY` qiymatni o'zgartirmaydi. Moslashtirilgan variantlari: `20.gh` (vertikal) va `10.gw` (gorizontal).
+`gapX` va `gapY` qiymatni moslashtirmaydi. Moslashtirish kerak bo'lsa: `20.h.gapY` yoki `10.w.gapX`.
 
-### 4. Ekran ulushi bo'yicha o'lcham
+### 4. Padding va margin
+
+Padding ham, margin ham `EdgeInsets`, shuning uchun bir xil nomlar ikkalasiga ishlaydi. Chap-o'ng qiymatlar `.w`, tepa-past qiymatlar `.h` bo'yicha moslashadi:
+
+```dart
+Container(
+  padding: 16.horizontal,       // chap va o'ng
+  margin: 8.onlyTop,            // faqat tepa
+  child: ...,
+)
+
+Padding(padding: 12.all, child: ...)
+Padding(padding: 16.horizontal + 8.vertical, child: ...)
+```
+
+| Nomi | Natija |
+|---|---|
+| `.all` | hamma tomondan |
+| `.horizontal` | chap va o'ng |
+| `.vertical` | tepa va past |
+| `.onlyLeft`, `.onlyRight` | faqat chap, faqat o'ng |
+| `.onlyTop`, `.onlyBottom` | faqat tepa, faqat past |
+
+### 5. Ekran ulushi bo'yicha o'lcham
 
 ```dart
 Container(
@@ -90,7 +114,7 @@ Container(
 )
 ```
 
-### 5. Ekran o'lchamlarini olish
+### 6. Ekran o'lchamlarini olish
 
 ```dart
 final width = context.screenWidth;
@@ -107,7 +131,6 @@ To'liq ishlaydigan namuna `example/` papkasida: `cd example && flutter run`.
 
 - Ekran o'lchami o'zgarganda butun ilova qayta `build` qilinadi (`const` vidjetlar ham), lekin ularning holati (`State`) saqlanadi.
 - `AdaptiveSizeInit` ishlatilmasa, barcha koeffitsiyentlar 1 bo'ladi va o'lchamlar o'zgarmaydi.
-- Eski usul ham ishlaydi: `AdaptiveSizeConfig.init(context, designWidth: 375, designHeight: 812)`. Lekin bu holda ekran o'zgarganda qayta chaqirish kerak.
 - Kamida Flutter 3.10 kerak.
 
 ## Litsenziya
